@@ -8,7 +8,7 @@ abstract class AdapterBase<I : AdapterBase.Item, V : AdapterBase.ViewHolderBase<
 
     private var items: ArrayList<I> = arrayListOf()
 
-    private var onItemClickListener: OnItemClickListener<I>? = null
+    var onItemClickListener: OnItemClickListener<I>? = null
 
     fun showAll(p0: ArrayList<I>) {
         items.clear()
@@ -52,8 +52,7 @@ abstract class AdapterBase<I : AdapterBase.Item, V : AdapterBase.ViewHolderBase<
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): V {
         return onCreateItemViewHolder(parent, viewType).apply {
-            if (this@AdapterBase.onItemClickListener != null)
-                onItemClickListener = this@AdapterBase.onItemClickListener
+            onItemClickListener = this@AdapterBase.onItemClickListener
         }
     }
 

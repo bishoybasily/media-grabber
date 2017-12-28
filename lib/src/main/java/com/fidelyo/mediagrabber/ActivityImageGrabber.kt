@@ -16,6 +16,8 @@ import android.util.Log
 import android.util.SparseIntArray
 import android.view.Surface
 import android.view.TextureView
+import android.view.View
+import com.fidelyo.mediagrabber.model.entity.Image
 import com.fidelyo.mediagrabber.model.interactor.InteractorFiles
 import com.fidelyo.mediagrabber.model.interactor.InteractorImages
 import kotlinx.android.synthetic.main.activity_image_grabber.*
@@ -116,10 +118,15 @@ class ActivityImageGrabber : AppCompatActivity() {
         recyclerGallery.layoutManager = layoutManager
         recyclerGallery.addItemDecoration(spacing)
 
-        adapterMedia.onItemClickListener { image, view ->
-            interactorImages.findOne(image.id!!).subscribe {
-                publishResult(it.path!!)
+        adapterMedia.onItemClickListener = object : AdapterBase.OnItemClickListener<Image> {
+            override fun onClicked(i: Image, view: View) {
+                interactorImages.findOne(i.id!!).subscribe {
+                    Log.i(TAG, i.toString())
+                }
+
+//                publishResult(i.path!!)
             }
+
         }
 
         interactorImages.findAll().subscribe { adapterMedia.showAll(it) }
