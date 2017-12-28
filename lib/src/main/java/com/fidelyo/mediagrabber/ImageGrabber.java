@@ -1,4 +1,4 @@
-package com.fidelyo.imagegrabber;
+package com.fidelyo.mediagrabber;
 
 import android.app.Activity;
 import android.app.Fragment;

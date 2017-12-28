@@ -1,8 +1,8 @@
-package com.fidelyo.imagegrabber.model.interactor
+package com.fidelyo.mediagrabber.model.interactor
 
 import android.content.Context
 import android.provider.MediaStore
-import com.fidelyo.imagegrabber.model.entity.Image
+import com.fidelyo.mediagrabber.model.entity.Image
 import io.reactivex.Observable
 
 /**

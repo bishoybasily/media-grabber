@@ -1,7 +1,6 @@
-package com.fidelyo.imagegrabber
+package com.fidelyo.mediagrabber
 
 import android.graphics.Rect
-import com.fidelyo.imagegrabber.SpacingItemDecoration
 
 /**
  * Created by bishoy on 6/17/17.

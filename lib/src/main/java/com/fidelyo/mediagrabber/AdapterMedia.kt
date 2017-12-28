@@ -1,9 +1,9 @@
-package com.fidelyo.imagegrabber
+package com.fidelyo.mediagrabber
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.fidelyo.imagegrabber.model.entity.Image
+import com.fidelyo.mediagrabber.model.entity.Image
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.item_media.view.*
 import java.io.File

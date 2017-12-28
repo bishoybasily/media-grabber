@@ -1,6 +1,6 @@
-package com.fidelyo.imagegrabber.model.entity
+package com.fidelyo.mediagrabber.model.entity
 
-import com.fidelyo.imagegrabber.AdapterBase
+import com.fidelyo.mediagrabber.AdapterBase
 
 /**
  * Created by bishoy on 12/27/17.

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.fidelyo.imagegrabber">
+    package="com.fidelyo.mediagrabber">
 
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -12,7 +12,7 @@
         android:hardwareAccelerated="true"
         android:largeHeap="true">
         <activity
-            android:name=".ActivityImageGrabber"
+            android:name="com.fidelyo.mediagrabber.ActivityImageGrabber"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:theme="@style/FullscreenTheme" />
     </application>

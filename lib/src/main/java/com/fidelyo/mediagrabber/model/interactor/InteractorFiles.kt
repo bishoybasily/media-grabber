@@ -1,4 +1,4 @@
-package com.fidelyo.imagegrabber.model.interactor
+package com.fidelyo.mediagrabber.model.interactor
 
 import android.content.Context
 import io.reactivex.Observable
@@ -12,7 +12,7 @@ class InteractorFiles(val context: Context) {
 
     fun temporary(bytes: ByteArray, prefix: String, suffix: String): Observable<String> {
         return Observable.create {
-            val file = File.createTempFile(prefix, suffix);
+            val file = File.createTempFile(prefix, suffix)
             file.outputStream().use { it.write(bytes) }
             it.onNext(file.absolutePath)
             it.onComplete()

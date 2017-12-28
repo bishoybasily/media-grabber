@@ -1,4 +1,4 @@
-package com.fidelyo.imagegrabber
+package com.fidelyo.mediagrabber
 
 import android.annotation.SuppressLint
 import android.app.Activity
@@ -16,11 +16,10 @@ import android.util.Log
 import android.util.SparseIntArray
 import android.view.Surface
 import android.view.TextureView
-import com.fidelyo.imagegrabber.model.interactor.InteractorFiles
-import com.fidelyo.imagegrabber.model.interactor.InteractorImages
+import com.fidelyo.mediagrabber.model.interactor.InteractorFiles
+import com.fidelyo.mediagrabber.model.interactor.InteractorImages
 import kotlinx.android.synthetic.main.activity_image_grabber.*
 import java.util.*
-
 
 class ActivityImageGrabber : AppCompatActivity() {
 
@@ -127,7 +126,6 @@ class ActivityImageGrabber : AppCompatActivity() {
 
     }
 
-
     private fun captureSession(width: Int, height: Int, surfaceTexture: SurfaceTexture) {
 
         val surface = Surface(surfaceTexture)
@@ -163,15 +161,6 @@ class ActivityImageGrabber : AppCompatActivity() {
 
                 session.capture(captureRequest, object : CameraCaptureSession.CaptureCallback() {
 
-                    override fun onCaptureStarted(session: CameraCaptureSession, request: CaptureRequest, timestamp: Long, frameNumber: Long) {
-                        super.onCaptureStarted(session, request, timestamp, frameNumber)
-                    }
-
-                    override fun onCaptureCompleted(session: CameraCaptureSession?, request: CaptureRequest, result: TotalCaptureResult) {
-                        super.onCaptureCompleted(session, request, result)
-
-                    }
-
                     override fun onCaptureFailed(session: CameraCaptureSession?, request: CaptureRequest, failure: CaptureFailure) {
                         super.onCaptureFailed(session, request, failure)
                         Log.e(TAG, "onCaptureFailed")
@@ -185,10 +174,6 @@ class ActivityImageGrabber : AppCompatActivity() {
             }
 
         }, backgroundHandler)
-    }
-
-    private fun publishResult(it: String) {
-        setResult(Activity.RESULT_OK, intent.putExtra(ImageGrabber.EXTRA, it)); finish()
     }
 
     private fun previewSession(surfaceTexture: SurfaceTexture) {
@@ -206,14 +191,6 @@ class ActivityImageGrabber : AppCompatActivity() {
 
                 session.setRepeatingRequest(captureRequest, object : CameraCaptureSession.CaptureCallback() {
 
-                    override fun onCaptureStarted(session: CameraCaptureSession, request: CaptureRequest, timestamp: Long, frameNumber: Long) {
-                        super.onCaptureStarted(session, request, timestamp, frameNumber)
-                    }
-
-                    override fun onCaptureCompleted(session: CameraCaptureSession?, request: CaptureRequest, result: TotalCaptureResult) {
-                        super.onCaptureCompleted(session, request, result)
-                    }
-
                     override fun onCaptureFailed(session: CameraCaptureSession?, request: CaptureRequest, failure: CaptureFailure) {
                         super.onCaptureFailed(session, request, failure)
                         Log.e(TAG, "onCaptureFailed")
@@ -230,5 +207,8 @@ class ActivityImageGrabber : AppCompatActivity() {
         }, mainHandler)
     }
 
+    private fun publishResult(it: String) {
+        setResult(Activity.RESULT_OK, intent.putExtra(ImageGrabber.EXTRA, it)); finish()
+    }
 
 }
