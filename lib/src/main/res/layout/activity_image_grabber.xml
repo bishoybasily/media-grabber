@@ -1,4 +1,4 @@
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -15,7 +15,9 @@
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:layout_gravity="bottom|center"
-        android:layout_marginBottom="80dp" />
+        app:layout_constraintBottom_toTopOf="@+id/fabCapture"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fabCapture"
@@ -23,6 +25,10 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|center"
         android:layout_margin="@dimen/fab_margin"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toBottomOf="@+id/cameraView"
+        app:layout_constraintEnd_toEndOf="@+id/cameraView"
+        app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/ic_camera" />
 
-</android.support.design.widget.CoordinatorLayout>
+</android.support.constraint.ConstraintLayout>

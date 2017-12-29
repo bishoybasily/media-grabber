@@ -109,7 +109,7 @@ class ActivityImageGrabber : AppCompatActivity() {
 
         val adapterMedia = AdapterMedia()
         val layoutManager = LinearLayoutManager(this@ActivityImageGrabber, LinearLayoutManager.HORIZONTAL, false)
-        val spacing = LinearHorizontalSpacingItemDecoration(10)
+        val spacing = LinearHorizontalSpacingItemDecoration(26)
 
         recyclerGallery.adapter = adapterMedia
         recyclerGallery.layoutManager = layoutManager

@@ -10,28 +10,37 @@ import io.reactivex.Observable
 
 class ImageGrabber {
 
-    private val TAG = javaClass.simpleName
+    fun with(activity: Activity): Grabber {
+        return Grabber(activity)
+    }
 
-    fun grab(activity: Activity): Observable<String> {
-        return Observable.create { e ->
-            getFragment(activity).setEmitter(e).startActivityForResult(Intent(activity, ActivityImageGrabber::class.java), CODE)
+    open class Grabber(val activity: Activity) {
+
+        fun grab(): Observable<String> {
+            return Observable.create { e ->
+                getFragment(activity).setEmitter(e).startActivityForResult(Intent(activity, ActivityImageGrabber::class.java), CODE)
+            }
+        }
+
+        private fun getFragment(activity: Activity): ImageGrabberFragment {
+            val fragmentManager = activity.fragmentManager
+            var fragment = fragmentManager.findFragmentByTag(ImageGrabberFragment.TAG)
+            if (fragment == null) {
+                fragment = ImageGrabberFragment()
+                fragmentManager
+                        .beginTransaction()
+                        .add(fragment, ImageGrabberFragment.TAG)
+                        .commitAllowingStateLoss()
+                fragmentManager.executePendingTransactions()
+            }
+            return fragment as ImageGrabberFragment
         }
     }
 
-    private fun getFragment(activity: Activity): ImageGrabberFragment {
-        val fragmentManager = activity.fragmentManager
-        var fragment = fragmentManager.findFragmentByTag(TAG)
-        if (fragment == null) {
-            fragment = ImageGrabberFragment()
-            fragmentManager.beginTransaction().add(fragment, TAG).commitAllowingStateLoss()
-            fragmentManager.executePendingTransactions()
-        }
-        return fragment as ImageGrabberFragment
-    }
 
     companion object {
 
-        val CODE = 987654321
-        val EXTRA = "extra"
+        val CODE = 40
+        val EXTRA = "extra_path"
     }
 }
