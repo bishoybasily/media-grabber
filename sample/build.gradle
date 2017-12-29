@@ -35,6 +35,8 @@ dependencies {
     implementation "com.android.support:appcompat-v7:$support_library_version"
     implementation "com.android.support:design:$support_library_version"
 
+    implementation group: "com.squareup.picasso", name: "picasso", version: "$picasso_version"
+
     implementation project(":lib")
 
     implementation 'io.reactivex.rxjava2:rxkotlin:2.1.0'

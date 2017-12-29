@@ -1,7 +1,6 @@
 package com.fidelyo.mediagrabber
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.content.Context
 import android.graphics.ImageFormat
 import android.graphics.SurfaceTexture
@@ -204,7 +203,7 @@ class ActivityImageGrabber : AppCompatActivity() {
     }
 
     private fun publishResult(it: String) {
-        setResult(Activity.RESULT_OK, intent.putExtra(ImageGrabber.EXTRA, it)); finish()
+        setResult(RESULT_OK, intent.putExtra(ImageGrabber.EXTRA, it)); finish()
     }
 
 }

@@ -6,13 +6,9 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
-    <uses-permission android:name="android.hardware.camera2.full" />
-
-    <application
-        android:hardwareAccelerated="true"
-        android:largeHeap="true">
+    <application>
         <activity
-            android:name="com.fidelyo.mediagrabber.ActivityImageGrabber"
+            android:name=".ActivityImageGrabber"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:theme="@style/FullscreenTheme" />
     </application>
