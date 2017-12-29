@@ -19,7 +19,7 @@ class MainActivity : AppCompatActivity() {
 
         fab.setOnClickListener { view ->
 
-            ImageGrabber().grab(this@MainActivity).subscribe {
+            ImageGrabber().with(this@MainActivity).grab().subscribe {
                 Picasso.with(view.context).load(File(it)).fit().into(image)
             }
 
