@@ -1,12 +1,12 @@
 package com.fidelyo.mediagrabber.model.entity
 
-import com.fidelyo.mediagrabber.AdapterBase
+import fidelyo.com.recyclerview.RecyclerViewAdapter
 
 /**
  * Created by bishoy on 12/27/17.
  */
 
-class Image : AdapterBase.Item {
+class Image : RecyclerViewAdapter.Item {
     var id: String? = null
     var path: String? = null
     var thumbnailPath: String? = null
