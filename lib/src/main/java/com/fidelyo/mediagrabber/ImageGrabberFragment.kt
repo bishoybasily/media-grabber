@@ -34,8 +34,4 @@ class ImageGrabberFragment : Fragment() {
         }
     }
 
-    companion object {
-        val TAG = javaClass.simpleName
-
-    }
 }

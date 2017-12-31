@@ -16,6 +16,8 @@ class ImageGrabber {
 
     open class Grabber(val activity: Activity) {
 
+        val TAG = javaClass.simpleName
+
         fun grab(): Observable<String> {
             return Observable.create { e ->
                 getFragment(activity).setEmitter(e).startActivityForResult(Intent(activity, ActivityImageGrabber::class.java), CODE)
@@ -24,12 +26,12 @@ class ImageGrabber {
 
         private fun getFragment(activity: Activity): ImageGrabberFragment {
             val fragmentManager = activity.fragmentManager
-            var fragment = fragmentManager.findFragmentByTag(ImageGrabberFragment.TAG)
+            var fragment = fragmentManager.findFragmentByTag(TAG)
             if (fragment == null) {
                 fragment = ImageGrabberFragment()
                 fragmentManager
                         .beginTransaction()
-                        .add(fragment, ImageGrabberFragment.TAG)
+                        .add(fragment, TAG)
                         .commitAllowingStateLoss()
                 fragmentManager.executePendingTransactions()
             }
