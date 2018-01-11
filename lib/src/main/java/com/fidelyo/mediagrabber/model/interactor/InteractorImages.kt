@@ -15,9 +15,9 @@ class InteractorImages(val context: Context) {
 
         val uri = MediaStore.Images.Thumbnails.EXTERNAL_CONTENT_URI
         val projection = arrayOf(MediaStore.Images.Thumbnails._ID, MediaStore.Images.Thumbnails.IMAGE_ID, MediaStore.Images.Thumbnails.DATA)
-        val sortOrder = MediaStore.Images.Thumbnails._ID + " DESC"
         val selection = ""
         val selectionArgs = arrayOf<String>()
+        val sortOrder = MediaStore.Images.Thumbnails._ID + " DESC"
 
         return Observable.create {
 
@@ -27,7 +27,10 @@ class InteractorImages(val context: Context) {
             while (cursor.moveToNext()) {
                 val id = cursor.getString(cursor.getColumnIndex(projection[1]))
                 val thumbnailPath = cursor.getString(cursor.getColumnIndex(projection[2]))
-                result.add(Image().apply { this@apply.id = id }.apply { this@apply.thumbnailPath = thumbnailPath })
+                result.add(Image().apply {
+                    this@apply.id = id
+                    this@apply.thumbnailPath = thumbnailPath
+                })
             }
             cursor.close()
 
@@ -49,7 +52,10 @@ class InteractorImages(val context: Context) {
             while (cursor.moveToNext()) {
                 val id = cursor.getString(cursor.getColumnIndex(projection[0]))
                 val path = cursor.getString(cursor.getColumnIndex(projection[1]))
-                it.onNext(Image().apply { this@apply.id = id }.apply { this@apply.path = path })
+                it.onNext(Image().apply {
+                    this@apply.id = id
+                    this@apply.path = path
+                })
             }
             cursor.close()
             it.onComplete()

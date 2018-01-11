@@ -7,7 +7,6 @@ import io.reactivex.Observable
 /**
  * Created by bishoy on 12/26/17.
  */
-
 class ImageGrabber {
 
     fun with(activity: Activity): Grabber {

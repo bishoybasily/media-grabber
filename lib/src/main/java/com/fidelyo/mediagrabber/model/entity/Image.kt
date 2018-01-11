@@ -1,6 +1,6 @@
 package com.fidelyo.mediagrabber.model.entity
 
-import fidelyo.com.recyclerview.RecyclerViewAdapter
+import com.fidelyo.recyclerview.RecyclerViewAdapter
 
 /**
  * Created by bishoy on 12/27/17.

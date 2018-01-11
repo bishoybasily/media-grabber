@@ -16,11 +16,11 @@ import android.util.SparseIntArray
 import android.view.Surface
 import android.view.TextureView
 import android.view.View
-import com.fidelyo.external.recyclerview.LinearHorizontalSpacingItemDecoration
 import com.fidelyo.mediagrabber.model.entity.Image
 import com.fidelyo.mediagrabber.model.interactor.InteractorFiles
 import com.fidelyo.mediagrabber.model.interactor.InteractorImages
-import fidelyo.com.recyclerview.RecyclerViewAdapter
+import com.fidelyo.recyclerview.LinearHorizontalSpacingItemDecoration
+import com.fidelyo.recyclerview.RecyclerViewAdapter
 import kotlinx.android.synthetic.main.activity_image_grabber.*
 import java.util.*
 
@@ -109,17 +109,17 @@ class ActivityImageGrabber : AppCompatActivity() {
     @SuppressLint("MissingPermission")
     private fun initializeGallery() {
 
-        interactorImages = InteractorImages(this@ActivityImageGrabber)
+        interactorImages = InteractorImages(this)
 
         val adapterMedia = AdapterMedia()
-        val layoutManager = LinearLayoutManager(this@ActivityImageGrabber, LinearLayoutManager.HORIZONTAL, false)
+        val layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         val spacing = LinearHorizontalSpacingItemDecoration(26)
 
         recyclerGallery.adapter = adapterMedia
         recyclerGallery.layoutManager = layoutManager
         recyclerGallery.addItemDecoration(spacing)
 
-        adapterMedia.onItemClickListener = object : RecyclerViewAdapter.OnItemClickListener<Image> {
+        adapterMedia.clickListener = object : RecyclerViewAdapter.OnItemClickListener<Image> {
             override fun onClicked(i: Image, view: View) {
                 interactorImages.findOne(i.id!!).subscribe { publishResult(it.path!!) }
             }
