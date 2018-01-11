@@ -15,12 +15,9 @@ import android.util.Log
 import android.util.SparseIntArray
 import android.view.Surface
 import android.view.TextureView
-import android.view.View
-import com.fidelyo.mediagrabber.model.entity.Image
 import com.fidelyo.mediagrabber.model.interactor.InteractorFiles
 import com.fidelyo.mediagrabber.model.interactor.InteractorImages
 import com.fidelyo.recyclerview.LinearHorizontalSpacingItemDecoration
-import com.fidelyo.recyclerview.RecyclerViewAdapter
 import kotlinx.android.synthetic.main.activity_image_grabber.*
 import java.util.*
 
@@ -119,10 +116,8 @@ class ActivityImageGrabber : AppCompatActivity() {
         recyclerGallery.layoutManager = layoutManager
         recyclerGallery.addItemDecoration(spacing)
 
-        adapterMedia.clickListener = object : RecyclerViewAdapter.OnItemClickListener<Image> {
-            override fun onClicked(i: Image, view: View) {
-                interactorImages.findOne(i.id!!).subscribe { publishResult(it.path!!) }
-            }
+        adapterMedia.onClick { image, view ->
+            interactorImages.findOne(image.id!!).subscribe { publishResult(it.path!!) }
         }
 
         interactorImages.findAll().subscribe { adapterMedia.showAll(it) }
