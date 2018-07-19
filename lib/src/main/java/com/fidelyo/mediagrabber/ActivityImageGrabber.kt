@@ -206,7 +206,7 @@ class ActivityImageGrabber : AppCompatActivity() {
     }
 
     private fun publishResult(it: String) {
-        setResult(RESULT_OK, intent.putExtra(ImageGrabber.EXTRA, it)); finish()
+        setResult(RESULT_OK, intent.putExtra(Grabber.IMAGE_EXTRA, it)); finish()
     }
 
 }

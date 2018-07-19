@@ -23,15 +23,21 @@ class ImageGrabberFragment : Fragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK) {
-            if (requestCode == ImageGrabber.CODE) {
+            if (requestCode == Grabber.IMAGE_CODE) {
                 if (data != null) {
                     if (emitter != null) {
-                        emitter!!.onNext(data.getStringExtra(ImageGrabber.EXTRA))
-                        emitter!!.onComplete()
+                        emitter?.onNext(data.getStringExtra(Grabber.IMAGE_EXTRA))
+                        emitter?.onComplete()
+                        return
                     }
                 }
             }
         }
+        emitter?.onError(Throwable("User cancelled"))
+    }
+
+    fun grap() {
+        startActivityForResult(Intent(activity, ActivityImageGrabber::class.java), Grabber.IMAGE_CODE)
     }
 
 }

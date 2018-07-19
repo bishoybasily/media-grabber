@@ -2,13 +2,11 @@ package com.fidelyo.sample
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import com.fidelyo.mediagrabber.ImageGrabber
-import com.squareup.picasso.Picasso
+import com.fidelyo.mediagrabber.Grabber
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.content_main.*
-import java.io.File
 
 class MainActivity : AppCompatActivity() {
 
@@ -19,9 +17,17 @@ class MainActivity : AppCompatActivity() {
 
         fab.setOnClickListener { view ->
 
-            ImageGrabber().with(this@MainActivity).grab().subscribe {
-                Picasso.with(view.context).load(File(it)).fit().into(image)
-            }
+            Grabber().with(this@MainActivity)
+                    .grabProjector()
+                    .subscribe({
+                        Log.w("##", "Done")
+                    }, {
+                        Log.e("##", "rejected")
+                    })
+
+//            Grabber().with(this@MainActivity).grabImage().subscribe {
+//                Picasso.with(view.context).load(File(it)).fit().into(image)
+//            }
 
         }
     }

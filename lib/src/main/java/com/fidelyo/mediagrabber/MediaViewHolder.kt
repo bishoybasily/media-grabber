@@ -8,7 +8,8 @@ import kotlinx.android.synthetic.main.item_media.view.*
 import java.io.File
 
 class MediaViewHolder(adapter: AdapterMedia,
-                      view: View) : RecyclerViewViewHolder<Image>(adapter, view) {
+                      view: View) :
+        RecyclerViewViewHolder<Image>(adapter, view) {
 
     override fun onAttached(i: Image) {
         Picasso.with(view.context).load(File(i.thumbnailPath)).into(view.image)
