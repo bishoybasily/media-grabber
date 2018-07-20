@@ -22,7 +22,7 @@ class MainActivity : AppCompatActivity() {
                     .subscribe({
                         Log.w("##", "Done")
                     }, {
-                        Log.e("##", "rejected")
+                        Log.e("##", "Rejected")
                     })
 
 //            Grabber().with(this@MainActivity).grabImage().subscribe {
