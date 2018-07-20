@@ -8,6 +8,7 @@ import android.media.projection.MediaProjection
 import android.media.projection.MediaProjectionManager
 import android.os.Bundle
 import android.util.DisplayMetrics
+import io.reactivex.Observable
 import io.reactivex.ObservableEmitter
 
 class ProjectorGrabberFragment : Fragment() {
@@ -54,11 +55,6 @@ class ProjectorGrabberFragment : Fragment() {
         }
     }
 
-    fun setEmitter(emitter: ObservableEmitter<MediaProjection>): ProjectorGrabberFragment {
-        this.emitter = emitter
-        return this
-    }
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK) {
@@ -81,13 +77,28 @@ class ProjectorGrabberFragment : Fragment() {
         emitter?.onError(Throwable("User cancelled"))
     }
 
-    fun grap() {
-        if (mMediaProjection == null) {
-            startActivityForResult(mMediaProjectionManager?.createScreenCaptureIntent(), Grabber.PROJECTOR_CODE)
-        } else {
-            emitter?.onNext(mMediaProjection!!)
-            emitter?.onComplete()
-        }
+    fun grap(): Observable<MediaProjection> {
+        return Observable
+                .create<MediaProjection> {
+
+                    emitter = it
+
+                    if (mMediaProjection == null) {
+                        startActivityForResult(mMediaProjectionManager?.createScreenCaptureIntent(), Grabber.PROJECTOR_CODE)
+                    } else {
+                        emitter?.onNext(mMediaProjection!!)
+                        emitter?.onComplete()
+                    }
+
+                }
+                .doOnDispose {
+                    mMediaProjection?.stop()
+                    mMediaProjection = null
+                }
+                .doOnError {
+                    mMediaProjection?.stop()
+                    mMediaProjection = null
+                }
     }
 
 }

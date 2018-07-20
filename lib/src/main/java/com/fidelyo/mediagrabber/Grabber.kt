@@ -18,11 +18,11 @@ class Grabber {
         val TAG = javaClass.simpleName
 
         fun grabImage(): Observable<String> {
-            return Observable.create { getImageGrapperFragment(activity).setEmitter(it).grap() }
+            return getImageGrapperFragment(activity).grap()
         }
 
         fun grabProjector(): Observable<MediaProjection> {
-            return Observable.create { getProjectorGrapperFragment(activity).setEmitter(it).grap() }
+            return getProjectorGrapperFragment(activity).grap()
         }
 
         private fun getImageGrapperFragment(activity: Activity): ImageGrabberFragment {

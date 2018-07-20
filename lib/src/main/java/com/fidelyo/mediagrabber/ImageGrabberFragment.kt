@@ -4,6 +4,7 @@ import android.app.Activity
 import android.app.Fragment
 import android.content.Intent
 import android.os.Bundle
+import io.reactivex.Observable
 import io.reactivex.ObservableEmitter
 
 class ImageGrabberFragment : Fragment() {
@@ -13,11 +14,6 @@ class ImageGrabberFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         retainInstance = true
-    }
-
-    fun setEmitter(emitter: ObservableEmitter<String>): ImageGrabberFragment {
-        this.emitter = emitter
-        return this
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -36,8 +32,11 @@ class ImageGrabberFragment : Fragment() {
         emitter?.onError(Throwable("User cancelled"))
     }
 
-    fun grap() {
-        startActivityForResult(Intent(activity, ActivityImageGrabber::class.java), Grabber.IMAGE_CODE)
+    fun grap(): Observable<String> {
+        return Observable.create {
+            emitter = it
+            startActivityForResult(Intent(activity, ActivityImageGrabber::class.java), Grabber.IMAGE_CODE)
+        }
     }
 
 }
