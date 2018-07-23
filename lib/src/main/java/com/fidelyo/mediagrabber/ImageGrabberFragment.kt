@@ -19,10 +19,10 @@ class ImageGrabberFragment : Fragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK) {
-            if (requestCode == Grabber.IMAGE_CODE) {
+            if (requestCode == MediaGrabber.IMAGE_CODE) {
                 if (data != null) {
                     if (emitter != null) {
-                        emitter?.onNext(data.getStringExtra(Grabber.IMAGE_EXTRA))
+                        emitter?.onNext(data.getStringExtra(MediaGrabber.IMAGE_EXTRA))
                         emitter?.onComplete()
                         return
                     }
@@ -35,7 +35,7 @@ class ImageGrabberFragment : Fragment() {
     fun grap(): Observable<String> {
         return Observable.create {
             emitter = it
-            startActivityForResult(Intent(activity, ActivityImageGrabber::class.java), Grabber.IMAGE_CODE)
+            startActivityForResult(Intent(activity, ActivityImageGrabber::class.java), MediaGrabber.IMAGE_CODE)
         }
     }
 

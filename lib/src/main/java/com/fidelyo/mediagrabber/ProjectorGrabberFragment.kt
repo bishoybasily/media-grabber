@@ -7,7 +7,6 @@ import android.content.Intent
 import android.media.projection.MediaProjection
 import android.media.projection.MediaProjectionManager
 import android.os.Bundle
-import android.util.DisplayMetrics
 import io.reactivex.Observable
 import io.reactivex.ObservableEmitter
 
@@ -21,7 +20,6 @@ class ProjectorGrabberFragment : Fragment() {
 
     private var mMediaProjectionManager: MediaProjectionManager? = null
 
-    private var mScreenDensity: Int = 0
     private var mMediaProjection: MediaProjection? = null
 
     private var emitter: ObservableEmitter<MediaProjection>? = null
@@ -40,9 +38,6 @@ class ProjectorGrabberFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        val metrics = DisplayMetrics()
-        activity.windowManager.defaultDisplay.getMetrics(metrics)
-        mScreenDensity = metrics.densityDpi
         mMediaProjectionManager = activity.getSystemService(Context.MEDIA_PROJECTION_SERVICE) as MediaProjectionManager?
 
     }
@@ -58,7 +53,7 @@ class ProjectorGrabberFragment : Fragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK) {
-            if (requestCode == Grabber.PROJECTOR_CODE) {
+            if (requestCode == MediaGrabber.PROJECTOR_CODE) {
                 if (data != null) {
                     if (emitter != null) {
 
@@ -84,7 +79,7 @@ class ProjectorGrabberFragment : Fragment() {
                     emitter = it
 
                     if (mMediaProjection == null) {
-                        startActivityForResult(mMediaProjectionManager?.createScreenCaptureIntent(), Grabber.PROJECTOR_CODE)
+                        startActivityForResult(mMediaProjectionManager?.createScreenCaptureIntent(), MediaGrabber.PROJECTOR_CODE)
                     } else {
                         emitter?.onNext(mMediaProjection!!)
                         emitter?.onComplete()

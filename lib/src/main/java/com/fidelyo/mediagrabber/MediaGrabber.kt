@@ -1,13 +1,11 @@
 package com.fidelyo.mediagrabber
 
 import android.app.Activity
-import android.media.projection.MediaProjection
-import io.reactivex.Observable
 
 /**
  * Created by bishoy on 12/26/17.
  */
-class Grabber {
+class MediaGrabber {
 
     fun with(activity: Activity): Grabber {
         return Grabber(activity)
@@ -17,15 +15,11 @@ class Grabber {
 
         val TAG = javaClass.simpleName
 
-        fun grabImage(): Observable<String> {
-            return getImageGrapperFragment(activity).grap()
-        }
+        fun grabImage() = getImageGrabberFragment(activity).grap()
 
-        fun grabProjector(): Observable<MediaProjection> {
-            return getProjectorGrapperFragment(activity).grap()
-        }
+        fun grabProjector() = getProjectorGrabberFragment(activity).grap()
 
-        private fun getImageGrapperFragment(activity: Activity): ImageGrabberFragment {
+        private fun getImageGrabberFragment(activity: Activity): ImageGrabberFragment {
             val fragmentManager = activity.fragmentManager
             var fragment = fragmentManager.findFragmentByTag(TAG)
             if (fragment == null) {
@@ -39,7 +33,7 @@ class Grabber {
             return fragment as ImageGrabberFragment
         }
 
-        private fun getProjectorGrapperFragment(activity: Activity): ProjectorGrabberFragment {
+        private fun getProjectorGrabberFragment(activity: Activity): ProjectorGrabberFragment {
             val fragmentManager = activity.fragmentManager
             var fragment = fragmentManager.findFragmentByTag(TAG)
             if (fragment == null) {
@@ -53,7 +47,6 @@ class Grabber {
             return fragment as ProjectorGrabberFragment
         }
     }
-
 
     companion object {
 

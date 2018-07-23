@@ -5,7 +5,7 @@ import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import com.fidelyo.mediagrabber.Grabber
+import com.fidelyo.mediagrabber.MediaGrabber
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -17,7 +17,7 @@ class MainActivity : AppCompatActivity() {
 
         fab.setOnClickListener { view ->
 
-            Grabber().with(this@MainActivity)
+            MediaGrabber().with(this@MainActivity)
                     .grabProjector()
                     .subscribe({
                         Log.w("##", "Done")
@@ -25,7 +25,7 @@ class MainActivity : AppCompatActivity() {
                         Log.e("##", "Rejected")
                     })
 
-//            Grabber().with(this@MainActivity).grabImage().subscribe {
+//            MediaGrabber().with(this@MainActivity).grabImage().subscribe {
 //                Picasso.with(view.context).load(File(it)).fit().into(image)
 //            }
 
