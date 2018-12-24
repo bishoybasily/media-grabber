@@ -8,10 +8,10 @@ import com.gmail.bishoybasily.recyclerview.RecyclerViewAdapter
 /**
  * Created by bishoy on 12/27/17.
  */
-class AdapterMedia : RecyclerViewAdapter<Image, MediaViewHolder>() {
+class AdapterMedia : RecyclerViewAdapter<Image, ViewHolderMedia>() {
 
-    override fun onCreateItemViewHolder(parent: ViewGroup, viewType: Int): MediaViewHolder {
-        return MediaViewHolder(this, LayoutInflater.from(parent.context).inflate(R.layout.item_media, parent, false))
+    override fun onCreateItemViewHolder(parent: ViewGroup, viewType: Int): ViewHolderMedia {
+        return ViewHolderMedia(this, LayoutInflater.from(parent.context).inflate(R.layout.item_media, parent, false))
     }
 
 }

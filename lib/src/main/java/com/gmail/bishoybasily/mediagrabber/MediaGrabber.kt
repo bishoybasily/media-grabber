@@ -20,32 +20,32 @@ class MediaGrabber {
 
         fun grabProjector() = getProjectorGrabberFragment(activity).grap()
 
-        private fun getImageGrabberFragment(activity: AppCompatActivity): ImageGrabberFragment {
+        private fun getImageGrabberFragment(activity: AppCompatActivity): FragmentImageGrabber {
             val fragmentManager = activity.supportFragmentManager
             var fragment = fragmentManager.findFragmentByTag(TAG)
             if (fragment == null) {
-                fragment = ImageGrabberFragment()
+                fragment = FragmentImageGrabber()
                 fragmentManager
                         .beginTransaction()
                         .add(fragment, TAG)
                         .commitAllowingStateLoss()
                 fragmentManager.executePendingTransactions()
             }
-            return fragment as ImageGrabberFragment
+            return fragment as FragmentImageGrabber
         }
 
-        private fun getProjectorGrabberFragment(activity: AppCompatActivity): ProjectorGrabberFragment {
+        private fun getProjectorGrabberFragment(activity: AppCompatActivity): FragmentProjectorGrabber {
             val fragmentManager = activity.supportFragmentManager
             var fragment = fragmentManager.findFragmentByTag(TAG)
             if (fragment == null) {
-                fragment = ProjectorGrabberFragment()
+                fragment = FragmentProjectorGrabber()
                 fragmentManager
                         .beginTransaction()
                         .add(fragment, TAG)
                         .commitAllowingStateLoss()
                 fragmentManager.executePendingTransactions()
             }
-            return fragment as ProjectorGrabberFragment
+            return fragment as FragmentProjectorGrabber
         }
     }
 

@@ -10,7 +10,7 @@ import androidx.fragment.app.Fragment
 import io.reactivex.Observable
 import io.reactivex.ObservableEmitter
 
-class ProjectorGrabberFragment : Fragment() {
+class FragmentProjectorGrabber : Fragment() {
 
     private var mResultCode: Int = 0
     private var mResultData: Intent? = null

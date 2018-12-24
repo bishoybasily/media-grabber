@@ -7,7 +7,7 @@ import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.item_media.view.*
 import java.io.File
 
-class MediaViewHolder(adapter: AdapterMedia,
+class ViewHolderMedia(adapter: AdapterMedia,
                       view: View) :
         RecyclerViewViewHolder<Image>(adapter, view) {
 

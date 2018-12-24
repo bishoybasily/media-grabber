@@ -7,7 +7,7 @@ import androidx.fragment.app.Fragment
 import io.reactivex.Observable
 import io.reactivex.ObservableEmitter
 
-class ImageGrabberFragment : Fragment() {
+class FragmentImageGrabber : Fragment() {
 
     private lateinit var emitter: ObservableEmitter<String>
 

@@ -39,7 +39,7 @@ class InteractorImages(val context: Context) {
         }
     }
 
-    fun findOne(imageId: String): Observable<Image> {
+    fun findOne(imageId: String?): Observable<Image> {
 
         val uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
         val projection = arrayOf(MediaStore.Images.Media._ID, MediaStore.Images.Media.DATA)
