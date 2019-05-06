@@ -2,7 +2,9 @@ package com.gmail.bishoybasily.mediagrabber
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.res.Configuration
 import android.graphics.ImageFormat
+import android.graphics.Point
 import android.graphics.SurfaceTexture
 import android.hardware.camera2.*
 import android.media.ImageReader
@@ -10,6 +12,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
+import android.util.Size
 import android.util.SparseIntArray
 import android.view.Surface
 import android.view.TextureView
@@ -33,6 +36,10 @@ abstract class BaseActivityCamera : AppCompatActivity() {
 
     private val ORIENTATIONS = SparseIntArray()
 
+    private val MAX_PREVIEW_WIDTH = 1920
+    private val MAX_PREVIEW_HEIGHT = 1080
+
+    lateinit var previewSize: Size
 
     private lateinit var imageReaderPreview: ImageReader
     private lateinit var imageReaderCapture: ImageReader
@@ -67,6 +74,48 @@ abstract class BaseActivityCamera : AppCompatActivity() {
         cameraManager = getSystemService(Context.CAMERA_SERVICE) as CameraManager
         cameraId = cameraManager.cameraIdList.first()
 
+
+        val characteristics = cameraManager.getCameraCharacteristics(cameraId)
+
+        val displayRotation = windowManager.defaultDisplay.rotation
+
+        var mSensorOrientation = characteristics.get(CameraCharacteristics.SENSOR_ORIENTATION)
+        var swappedDimensions = false
+        when (displayRotation) {
+            Surface.ROTATION_0, Surface.ROTATION_180 -> if (mSensorOrientation == 90 || mSensorOrientation == 270) {
+                swappedDimensions = true
+            }
+            Surface.ROTATION_90, Surface.ROTATION_270 -> if (mSensorOrientation == 0 || mSensorOrientation == 180) {
+                swappedDimensions = true
+            }
+            else -> Log.e(TAG, "Display rotation is invalid: $displayRotation")
+        }
+
+        val displaySize = Point()
+        windowManager.defaultDisplay.getSize(displaySize)
+
+        var maxPreviewWidth = displaySize.x
+        var maxPreviewHeight = displaySize.y
+
+        if (swappedDimensions) {
+            maxPreviewWidth = displaySize.y
+            maxPreviewHeight = displaySize.x
+        }
+
+        if (maxPreviewWidth > MAX_PREVIEW_WIDTH)
+            maxPreviewWidth = MAX_PREVIEW_WIDTH
+        if (maxPreviewHeight > MAX_PREVIEW_HEIGHT)
+            maxPreviewHeight = MAX_PREVIEW_HEIGHT
+
+        previewSize = Size(maxPreviewWidth, maxPreviewHeight)
+
+        val orientation = resources.configuration.orientation
+        if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            cameraView.setAspectRatio(previewSize.width, previewSize.height)
+        } else {
+            cameraView.setAspectRatio(previewSize.height, previewSize.width)
+        }
+
         cameraView.surfaceTextureListener = object : TextureView.SurfaceTextureListener {
 
             override fun onSurfaceTextureAvailable(surfaceTexture: SurfaceTexture, width: Int, height: Int) {
@@ -75,7 +124,7 @@ abstract class BaseActivityCamera : AppCompatActivity() {
 
                     override fun onOpened(camera: CameraDevice) {
                         cameraDevice = camera
-                        previewSession(width, height, surfaceTexture)
+                        previewSession(surfaceTexture)
                     }
 
                     override fun onDisconnected(camera: CameraDevice) {
@@ -88,30 +137,32 @@ abstract class BaseActivityCamera : AppCompatActivity() {
 
                 }, mainHandler)
 
-                fabCapture.setOnClickListener {
-                    captureSession(width, height, surfaceTexture)
-                }
+                fabCapture.setOnClickListener { captureSession(surfaceTexture) }
 
             }
 
             override fun onSurfaceTextureSizeChanged(surfaceTexture: SurfaceTexture, width: Int, height: Int) {
+//                Log.w("##", "onSurfaceTextureSizeChanged")
             }
 
             override fun onSurfaceTextureUpdated(surfaceTexture: SurfaceTexture) {
+//                Log.w("##", "onSurfaceTextureUpdated")
             }
 
             override fun onSurfaceTextureDestroyed(surfaceTexture: SurfaceTexture): Boolean {
+//                Log.w("##", "onSurfaceTextureDestroyed")
                 return false
             }
 
         }
+
     }
 
-    private fun captureSession(width: Int, height: Int, surfaceTexture: SurfaceTexture) {
+    private fun captureSession(surfaceTexture: SurfaceTexture) {
 
-        val surface = Surface(surfaceTexture)
+        surfaceTexture.setDefaultBufferSize(previewSize.width, previewSize.height)
 
-        imageReaderCapture = ImageReader.newInstance(width, height, ImageFormat.JPEG, 1)
+        imageReaderCapture = ImageReader.newInstance(previewSize.width, previewSize.height, ImageFormat.JPEG, 1)
         imageReaderCapture.setOnImageAvailableListener({
 
             val image = imageReaderCapture.acquireLatestImage()
@@ -124,7 +175,7 @@ abstract class BaseActivityCamera : AppCompatActivity() {
             image.close()
             it.close()
 
-            previewSession(width, height, surfaceTexture)
+            previewSession(surfaceTexture)
 
         }, backgroundHandler)
 
@@ -133,8 +184,7 @@ abstract class BaseActivityCamera : AppCompatActivity() {
         captureRequestBuilder.set(CaptureRequest.CONTROL_MODE, CaptureRequest.CONTROL_MODE_AUTO)
         captureRequestBuilder.set(CaptureRequest.JPEG_ORIENTATION, ORIENTATIONS[windowManager.defaultDisplay.rotation])
 
-
-        cameraDevice.createCaptureSession(Arrays.asList(imageReaderCapture.surface, surface), object : CameraCaptureSession.StateCallback() {
+        cameraDevice.createCaptureSession(Arrays.asList(imageReaderCapture.surface), object : CameraCaptureSession.StateCallback() {
 
             override fun onConfigured(session: CameraCaptureSession) {
 
@@ -156,13 +206,16 @@ abstract class BaseActivityCamera : AppCompatActivity() {
             }
 
         }, backgroundHandler)
+
     }
 
-    private fun previewSession(width: Int, height: Int, surfaceTexture: SurfaceTexture) {
+    private fun previewSession(surfaceTexture: SurfaceTexture) {
+
+        surfaceTexture.setDefaultBufferSize(previewSize.width, previewSize.height)
 
         val surface = Surface(surfaceTexture)
 
-        imageReaderPreview = ImageReader.newInstance(width, height, ImageFormat.JPEG, 1)
+        imageReaderPreview = ImageReader.newInstance(previewSize.width, previewSize.height, ImageFormat.JPEG, 1)
         imageReaderPreview.setOnImageAvailableListener({ reader ->
 
             val image = imageReaderPreview.acquireLatestImage()
@@ -180,12 +233,7 @@ abstract class BaseActivityCamera : AppCompatActivity() {
         captureRequestBuilder.addTarget(surface)
         captureRequestBuilder.addTarget(imageReaderPreview.surface)
         captureRequestBuilder.set(CaptureRequest.CONTROL_MODE, CaptureRequest.CONTROL_MODE_AUTO)
-
-
-//        val captureRequestBuilder = cameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW)
-//        captureRequestBuilder.addTarget(surface)
-//        captureRequestBuilder.set(CaptureRequest.CONTROL_MODE, CaptureRequest.CONTROL_MODE_AUTO)
-
+        captureRequestBuilder.set(CaptureRequest.JPEG_ORIENTATION, ORIENTATIONS[windowManager.defaultDisplay.rotation])
 
         cameraDevice.createCaptureSession(Arrays.asList(surface, imageReaderPreview.surface), object : CameraCaptureSession.StateCallback() {
 
@@ -209,6 +257,7 @@ abstract class BaseActivityCamera : AppCompatActivity() {
             }
 
         }, mainHandler)
+
     }
 
     open fun destroy() {
@@ -229,7 +278,7 @@ abstract class BaseActivityCamera : AppCompatActivity() {
 
     open fun onFrame(it: ByteArray) {
 
-        Log.w("##", "frame")
+//        Log.w("##", "frame")
 
     }
 

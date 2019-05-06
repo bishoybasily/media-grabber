@@ -7,7 +7,9 @@ import com.gmail.bishoybasily.recyclerview.RecyclerViewAdapter
  */
 
 class Image : RecyclerViewAdapter.Item {
+
     var id: String? = null
     var path: String? = null
     var thumbnailPath: String? = null
+
 }

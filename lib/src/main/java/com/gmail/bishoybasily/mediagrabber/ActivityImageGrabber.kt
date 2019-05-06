@@ -20,7 +20,7 @@ class ActivityImageGrabber : BaseActivityCamera() {
     @SuppressLint("MissingPermission")
     private fun initialize() {
 
-        interactorFiles = InteractorFiles(this@ActivityImageGrabber)
+        interactorFiles = InteractorFiles(this)
         interactorImages = InteractorImages(this)
 
         val adapterMedia = AdapterMedia()
@@ -32,31 +32,16 @@ class ActivityImageGrabber : BaseActivityCamera() {
         recyclerGallery.addItemDecoration(spacing)
 
         adapterMedia.onClick { image, view ->
-            compositeDisposable.add(
-                    interactorImages.findOne(image.id)
-                            .subscribe { publishResult(it.path) }
-            )
+            compositeDisposable.add(interactorImages.findOne(image.id).map { it.path }.subscribe(::publishResult))
         }
 
-        compositeDisposable.add(
-                interactorImages.findAll()
-                        .subscribe { adapterMedia.showAll(it) }
-        )
+        compositeDisposable.add(interactorImages.findAll().subscribe(adapterMedia::show))
 
     }
 
     override fun onCapture(it: ByteArray) {
-
-        compositeDisposable.add(
-
-                interactorFiles.temporary(it, "CAPTURED_AT_${System.currentTimeMillis()}", ".jpg")
-                        .subscribe {
-                            publishResult(it)
-                        }
-
-        )
+        compositeDisposable.add(interactorFiles.temporary(it, "CAPTURED_AT_${System.currentTimeMillis()}", ".jpg").subscribe(::publishResult))
     }
-
 
     override fun getResourceLayout() = R.layout.activity_image_grabber
 

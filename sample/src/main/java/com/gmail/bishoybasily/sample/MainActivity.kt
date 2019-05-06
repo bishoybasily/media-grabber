@@ -22,7 +22,7 @@ class MainActivity : AppCompatActivity() {
             MediaGrabber()
                     .with(this@MainActivity)
                     .grabImage()
-                    .subscribe({ Picasso.with(view.context).load(File(it)).fit().into(image) }, { it.printStackTrace() })
+                    .subscribe({ Picasso.with(view.context).load(File(it)).into(image) }, { it.printStackTrace() })
 
         }
     }
