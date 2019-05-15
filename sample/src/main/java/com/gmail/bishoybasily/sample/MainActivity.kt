@@ -19,7 +19,9 @@ class MainActivity : AppCompatActivity() {
 
         fab.setOnClickListener { view ->
 
-            MediaGrabber()
+            val mediaGrabber = MediaGrabber()
+
+            mediaGrabber
                     .with(this@MainActivity)
                     .grabImage()
                     .subscribe({ Picasso.with(view.context).load(File(it)).into(image) }, { it.printStackTrace() })
