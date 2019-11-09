@@ -7,8 +7,8 @@ import android.media.projection.MediaProjection
 import android.media.projection.MediaProjectionManager
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import io.reactivex.Observable
-import io.reactivex.ObservableEmitter
+import io.reactivex.Single
+import io.reactivex.SingleEmitter
 
 class FragmentProjectorGrabber : Fragment() {
 
@@ -20,7 +20,7 @@ class FragmentProjectorGrabber : Fragment() {
 
     private lateinit var mMediaProjectionManager: MediaProjectionManager
     private lateinit var mMediaProjection: MediaProjection
-    private lateinit var emitter: ObservableEmitter<MediaProjection>
+    private lateinit var emitter: SingleEmitter<MediaProjection>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,8 +58,8 @@ class FragmentProjectorGrabber : Fragment() {
 
                     mMediaProjection = mMediaProjectionManager.getMediaProjection(mResultCode, mResultData)
 
-                    emitter.onNext(mMediaProjection)
-                    emitter.onComplete()
+                    emitter.onSuccess(mMediaProjection)
+
                     return
                 }
             }
@@ -67,26 +67,22 @@ class FragmentProjectorGrabber : Fragment() {
         emitter.onError(Throwable("User cancelled"))
     }
 
-    fun grap(): Observable<MediaProjection> {
-        return Observable
-                .create<MediaProjection> {
+    fun grap(): Single<MediaProjection> {
+        return Single.create<MediaProjection> {
 
-                    emitter = it
+            emitter = it
 
-                    if (::mMediaProjection.isInitialized) {
-                        startActivityForResult(mMediaProjectionManager.createScreenCaptureIntent(), MediaGrabber.PROJECTOR_CODE)
-                    } else {
-                        emitter.onNext(mMediaProjection)
-                        emitter.onComplete()
-                    }
+            if (::mMediaProjection.isInitialized) {
+                startActivityForResult(mMediaProjectionManager.createScreenCaptureIntent(), MediaGrabber.PROJECTOR_CODE)
+            } else {
+                emitter.onSuccess(mMediaProjection)
+            }
 
-                }
-                .doOnDispose {
-                    mMediaProjection.stop()
-                }
-                .doOnError {
-                    mMediaProjection.stop()
-                }
+        }.doOnDispose {
+            mMediaProjection.stop()
+        }.doOnError {
+            mMediaProjection.stop()
+        }
     }
 
 }

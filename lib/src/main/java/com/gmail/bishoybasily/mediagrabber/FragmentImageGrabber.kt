@@ -4,12 +4,12 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import io.reactivex.Observable
-import io.reactivex.ObservableEmitter
+import io.reactivex.Single
+import io.reactivex.SingleEmitter
 
 class FragmentImageGrabber : Fragment() {
 
-    private lateinit var emitter: ObservableEmitter<String>
+    private lateinit var emitter: SingleEmitter<String>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,8 +21,7 @@ class FragmentImageGrabber : Fragment() {
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == MediaGrabber.IMAGE_CODE) {
                 if (data != null) {
-                    emitter.onNext(data.getStringExtra(MediaGrabber.IMAGE_EXTRA))
-                    emitter.onComplete()
+                    emitter.onSuccess(data.getStringExtra(MediaGrabber.IMAGE_EXTRA))
                     return
                 }
             }
@@ -30,8 +29,8 @@ class FragmentImageGrabber : Fragment() {
         emitter.onError(Throwable("User cancelled"))
     }
 
-    fun grap(): Observable<String> {
-        return Observable.create {
+    fun grap(): Single<String> {
+        return Single.create {
             emitter = it
             startActivityForResult(Intent(activity, ActivityImageGrabber::class.java), MediaGrabber.IMAGE_CODE)
         }

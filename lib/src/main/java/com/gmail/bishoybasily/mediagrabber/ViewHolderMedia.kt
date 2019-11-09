@@ -13,7 +13,9 @@ class ViewHolderMedia(adapter: AdapterMedia,
 
     override fun onAttached(i: Image) {
         view.image.setImageResource(0)
+
         Picasso.with(view.context).load(File(i.thumbnailPath)).into(view.image)
+
     }
 
     override fun onDetached(i: Image) {

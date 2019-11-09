@@ -16,9 +16,9 @@ class MediaGrabber {
 
         val TAG = javaClass.simpleName
 
-        fun grabImage() = getImageGrabberFragment(activity).grap()
+        fun image() = getImageGrabberFragment(activity).grap()
 
-        fun grabProjector() = getProjectorGrabberFragment(activity).grap()
+        fun projector() = getProjectorGrabberFragment(activity).grap()
 
         private fun getImageGrabberFragment(activity: AppCompatActivity): FragmentImageGrabber {
             val fragmentManager = activity.supportFragmentManager
