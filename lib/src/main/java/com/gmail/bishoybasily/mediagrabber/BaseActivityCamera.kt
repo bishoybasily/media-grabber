@@ -74,7 +74,6 @@ abstract class BaseActivityCamera : AppCompatActivity() {
         cameraManager = getSystemService(Context.CAMERA_SERVICE) as CameraManager
         cameraId = cameraManager.cameraIdList.first()
 
-
         val characteristics = cameraManager.getCameraCharacteristics(cameraId)
 
         val displayRotation = windowManager.defaultDisplay.rotation
@@ -102,10 +101,10 @@ abstract class BaseActivityCamera : AppCompatActivity() {
             maxPreviewHeight = displaySize.x
         }
 
-        if (maxPreviewWidth > MAX_PREVIEW_WIDTH)
-            maxPreviewWidth = MAX_PREVIEW_WIDTH
-        if (maxPreviewHeight > MAX_PREVIEW_HEIGHT)
-            maxPreviewHeight = MAX_PREVIEW_HEIGHT
+//        if (maxPreviewWidth > MAX_PREVIEW_WIDTH)
+//            maxPreviewWidth = MAX_PREVIEW_WIDTH
+//        if (maxPreviewHeight > MAX_PREVIEW_HEIGHT)
+//            maxPreviewHeight = MAX_PREVIEW_HEIGHT
 
         previewSize = Size(maxPreviewWidth, maxPreviewHeight)
 
@@ -231,11 +230,11 @@ abstract class BaseActivityCamera : AppCompatActivity() {
 
         val captureRequestBuilder = cameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW)
         captureRequestBuilder.addTarget(surface)
-        captureRequestBuilder.addTarget(imageReaderPreview.surface)
+//        captureRequestBuilder.addTarget(imageReaderPreview.surface)
         captureRequestBuilder.set(CaptureRequest.CONTROL_MODE, CaptureRequest.CONTROL_MODE_AUTO)
         captureRequestBuilder.set(CaptureRequest.JPEG_ORIENTATION, ORIENTATIONS[windowManager.defaultDisplay.rotation])
 
-        cameraDevice.createCaptureSession(Arrays.asList(surface, imageReaderPreview.surface), object : CameraCaptureSession.StateCallback() {
+        cameraDevice.createCaptureSession(Arrays.asList(surface), object : CameraCaptureSession.StateCallback() {
 
             override fun onConfigured(session: CameraCaptureSession) {
 
