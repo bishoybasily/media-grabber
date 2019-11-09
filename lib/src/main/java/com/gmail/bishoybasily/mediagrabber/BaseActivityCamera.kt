@@ -101,10 +101,10 @@ abstract class BaseActivityCamera : AppCompatActivity() {
             maxPreviewHeight = displaySize.x
         }
 
-//        if (maxPreviewWidth > MAX_PREVIEW_WIDTH)
-//            maxPreviewWidth = MAX_PREVIEW_WIDTH
-//        if (maxPreviewHeight > MAX_PREVIEW_HEIGHT)
-//            maxPreviewHeight = MAX_PREVIEW_HEIGHT
+        if (maxPreviewWidth > MAX_PREVIEW_WIDTH)
+            maxPreviewWidth = MAX_PREVIEW_WIDTH
+        if (maxPreviewHeight > MAX_PREVIEW_HEIGHT)
+            maxPreviewHeight = MAX_PREVIEW_HEIGHT
 
         previewSize = Size(maxPreviewWidth, maxPreviewHeight)
 
