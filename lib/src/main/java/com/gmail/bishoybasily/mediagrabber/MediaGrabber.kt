@@ -1,6 +1,7 @@
 package com.gmail.bishoybasily.mediagrabber
 
-import androidx.appcompat.app.AppCompatActivity
+import android.widget.ImageView
+import androidx.fragment.app.FragmentActivity
 
 
 /**
@@ -8,11 +9,11 @@ import androidx.appcompat.app.AppCompatActivity
  */
 class MediaGrabber {
 
-    fun with(activity: AppCompatActivity): Grabber {
+    fun with(activity: FragmentActivity): Grabber {
         return Grabber(activity)
     }
 
-    open class Grabber(val activity: AppCompatActivity) {
+    open class Grabber(val activity: FragmentActivity) {
 
         val TAG = javaClass.simpleName
 
@@ -20,7 +21,7 @@ class MediaGrabber {
 
         fun projector() = getProjectorGrabberFragment(activity).grap()
 
-        private fun getImageGrabberFragment(activity: AppCompatActivity): FragmentImageGrabber {
+        private fun getImageGrabberFragment(activity: FragmentActivity): FragmentImageGrabber {
             val fragmentManager = activity.supportFragmentManager
             var fragment = fragmentManager.findFragmentByTag(TAG)
             if (fragment == null) {
@@ -34,7 +35,7 @@ class MediaGrabber {
             return fragment as FragmentImageGrabber
         }
 
-        private fun getProjectorGrabberFragment(activity: AppCompatActivity): FragmentProjectorGrabber {
+        private fun getProjectorGrabberFragment(activity: FragmentActivity): FragmentProjectorGrabber {
             val fragmentManager = activity.supportFragmentManager
             var fragment = fragmentManager.findFragmentByTag(TAG)
             if (fragment == null) {
@@ -55,6 +56,8 @@ class MediaGrabber {
         val IMAGE_EXTRA = "extra_path"
 
         val PROJECTOR_CODE = 41
+
+        lateinit var drawImage: (String?, ImageView) -> Unit
 
     }
 

@@ -11,7 +11,14 @@ import com.gmail.bishoybasily.recyclerview.RecyclerViewAdapter
 class AdapterMedia : RecyclerViewAdapter<Image, ViewHolderMedia>() {
 
     override fun onCreateItemViewHolder(parent: ViewGroup): ViewHolderMedia {
-        return ViewHolderMedia(this, LayoutInflater.from(parent.context).inflate(R.layout.item_media, parent, false))
+        return ViewHolderMedia(
+                this,
+                LayoutInflater.from(parent.context).inflate(
+                        R.layout.item_media,
+                        parent,
+                        false
+                )
+        )
     }
 
 }

@@ -17,6 +17,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
+        MediaGrabber.drawImage = { path, imageView -> Picasso.with(this).load(File(path)).into(imageView) }
+
         fab.setOnClickListener { view ->
 
             val mediaGrabber = MediaGrabber()
