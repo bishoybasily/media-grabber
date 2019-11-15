@@ -46,7 +46,7 @@ class ActivityImageGrabber : BaseActivityCamera() {
     override fun getResourceLayout() = R.layout.activity_image_grabber
 
     private fun publishResult(it: String?) {
-        setResult(RESULT_OK, intent.putExtra(MediaGrabber.IMAGE_EXTRA, it)); finish()
+        setResult(RESULT_OK, intent.putExtra(MediaGrabber.EXTRA, it)); finish()
     }
 
 }

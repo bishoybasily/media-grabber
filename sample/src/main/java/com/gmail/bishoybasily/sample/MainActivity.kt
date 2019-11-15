@@ -1,13 +1,13 @@
 package com.gmail.bishoybasily.sample
 
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import com.gmail.bishoybasily.mediagrabber.MediaGrabber
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.content_main.*
 import java.io.File
 
 class MainActivity : AppCompatActivity() {
@@ -23,10 +23,15 @@ class MainActivity : AppCompatActivity() {
 
             val mediaGrabber = MediaGrabber()
 
+//            mediaGrabber
+//                    .with(this@MainActivity)
+//                    .image()
+//                    .subscribe({ Picasso.with(this).load(File(it)).into(image) }, { it.printStackTrace() })
+
             mediaGrabber
                     .with(this@MainActivity)
-                    .image()
-                    .subscribe({ Picasso.with(this).load(File(it)).into(image) }, { it.printStackTrace() })
+                    .file()
+                    .subscribe({ Log.i("##", it) }, { it.printStackTrace() })
 
         }
     }

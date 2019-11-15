@@ -7,7 +7,7 @@ import androidx.fragment.app.Fragment
 import io.reactivex.Single
 import io.reactivex.SingleEmitter
 
-class FragmentImageGrabber : Fragment() {
+class FragmentFileGrabber : Fragment() {
 
     private lateinit var emitter: SingleEmitter<String>
 
@@ -21,14 +21,19 @@ class FragmentImageGrabber : Fragment() {
 
         if (resultCode == Activity.RESULT_OK)
             if (requestCode == MediaGrabber.CODE)
-                intent?.let { emitter.onSuccess(it.getStringExtra(MediaGrabber.EXTRA)) }
+                intent?.let { it.data?.let { it.path?.let { emitter.onSuccess(it) } } }
 
     }
 
     fun grap(): Single<String> {
         return Single.create {
             emitter = it
-            startActivityForResult(Intent(activity, ActivityImageGrabber::class.java), MediaGrabber.CODE)
+
+            Intent(Intent.ACTION_GET_CONTENT)
+                    .apply { type = "*/*" }
+                    .let { Intent.createChooser(it, "Choose a file") }
+                    .also { startActivityForResult(it, MediaGrabber.CODE) }
+
         }
     }
 

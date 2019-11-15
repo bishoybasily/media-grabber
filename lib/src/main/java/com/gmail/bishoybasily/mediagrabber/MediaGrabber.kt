@@ -19,7 +19,7 @@ class MediaGrabber {
 
         fun image() = getImageGrabberFragment(activity).grap()
 
-        fun projector() = getProjectorGrabberFragment(activity).grap()
+        fun file() = getFileGrabberFragment(activity).grap()
 
         private fun getImageGrabberFragment(activity: FragmentActivity): FragmentImageGrabber {
             val fragmentManager = activity.supportFragmentManager
@@ -35,27 +35,26 @@ class MediaGrabber {
             return fragment as FragmentImageGrabber
         }
 
-        private fun getProjectorGrabberFragment(activity: FragmentActivity): FragmentProjectorGrabber {
+        private fun getFileGrabberFragment(activity: FragmentActivity): FragmentFileGrabber {
             val fragmentManager = activity.supportFragmentManager
             var fragment = fragmentManager.findFragmentByTag(TAG)
             if (fragment == null) {
-                fragment = FragmentProjectorGrabber()
+                fragment = FragmentFileGrabber()
                 fragmentManager
                         .beginTransaction()
                         .add(fragment, TAG)
                         .commitAllowingStateLoss()
                 fragmentManager.executePendingTransactions()
             }
-            return fragment as FragmentProjectorGrabber
+            return fragment as FragmentFileGrabber
         }
+
     }
 
     companion object {
 
-        val IMAGE_CODE = 40
-        val IMAGE_EXTRA = "extra_path"
-
-        val PROJECTOR_CODE = 41
+        val CODE = 40
+        val EXTRA = "media_grabber_extra"
 
         lateinit var drawImage: (String?, ImageView) -> Unit
 

@@ -51,7 +51,7 @@ class FragmentProjectorGrabber : Fragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK) {
-            if (requestCode == MediaGrabber.PROJECTOR_CODE) {
+            if (requestCode == MediaGrabber.CODE) {
                 if (data != null) {
                     mResultCode = resultCode
                     mResultData = data
@@ -73,7 +73,7 @@ class FragmentProjectorGrabber : Fragment() {
             emitter = it
 
             if (::mMediaProjection.isInitialized) {
-                startActivityForResult(mMediaProjectionManager.createScreenCaptureIntent(), MediaGrabber.PROJECTOR_CODE)
+                startActivityForResult(mMediaProjectionManager.createScreenCaptureIntent(), MediaGrabber.CODE)
             } else {
                 emitter.onSuccess(mMediaProjection)
             }

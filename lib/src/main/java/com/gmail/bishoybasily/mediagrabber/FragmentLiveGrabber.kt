@@ -19,9 +19,9 @@ class FragmentLiveGrabber : Fragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK) {
-            if (requestCode == MediaGrabber.IMAGE_CODE) {
+            if (requestCode == MediaGrabber.CODE) {
                 if (data != null) {
-                    emitter.onNext(data.getStringExtra(MediaGrabber.IMAGE_EXTRA))
+                    emitter.onNext(data.getStringExtra(MediaGrabber.EXTRA))
                     emitter.onComplete()
                     return
                 }
@@ -33,7 +33,7 @@ class FragmentLiveGrabber : Fragment() {
     fun grap(): Observable<String> {
         return Observable.create {
             emitter = it
-            startActivityForResult(Intent(activity, ActivityImageGrabber::class.java), MediaGrabber.IMAGE_CODE)
+            startActivityForResult(Intent(activity, ActivityImageGrabber::class.java), MediaGrabber.CODE)
         }
     }
 
