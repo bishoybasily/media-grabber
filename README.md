@@ -20,7 +20,7 @@ allprojects {
 
 ```groovy
 dependencies {
-    implementation 'com.github.bishoybasily:media-grabber:Tag'
+    implementation 'com.github.bishoybasily:media-grabber:4.1.0'
 }
 ```
 
