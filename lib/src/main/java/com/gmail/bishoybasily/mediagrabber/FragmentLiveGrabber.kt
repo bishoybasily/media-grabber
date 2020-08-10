@@ -21,7 +21,7 @@ class FragmentLiveGrabber : Fragment() {
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == MediaGrabber.CODE) {
                 if (data != null) {
-                    emitter.onNext(data.getStringExtra(MediaGrabber.EXTRA))
+                    data.getStringExtra(MediaGrabber.EXTRA)?.let { emitter.onNext(it) }
                     emitter.onComplete()
                     return
                 }

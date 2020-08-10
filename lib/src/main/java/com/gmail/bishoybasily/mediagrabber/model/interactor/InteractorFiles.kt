@@ -1,7 +1,7 @@
 package com.gmail.bishoybasily.mediagrabber.model.interactor
 
 import android.content.Context
-import io.reactivex.Observable
+import io.reactivex.Single
 import java.io.File
 
 /**
@@ -10,12 +10,11 @@ import java.io.File
 
 class InteractorFiles(val context: Context) {
 
-    fun temporary(bytes: ByteArray, prefix: String, suffix: String): Observable<String> {
-        return Observable.create {
+    fun temporary(bytes: ByteArray, prefix: String, suffix: String): Single<String> {
+        return Single.create {
             val file = File.createTempFile(prefix, suffix)
             file.outputStream().use { it.write(bytes) }
-            it.onNext(file.absolutePath)
-            it.onComplete()
+            it.onSuccess(file.absolutePath)
         }
     }
 

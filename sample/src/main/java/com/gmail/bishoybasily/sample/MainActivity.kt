@@ -1,14 +1,15 @@
 package com.gmail.bishoybasily.sample
 
+import android.Manifest
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import com.gmail.bishoybasily.mediagrabber.MediaGrabber
-import com.squareup.picasso.Picasso
+import com.gmail.bishoybasily.permissionsrequester.PermissionsRequester
 import kotlinx.android.synthetic.main.activity_main.*
-import java.io.File
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -17,20 +18,29 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
-        MediaGrabber.drawImage = { path, imageView -> Picasso.with(this).load(File(path)).into(imageView) }
+        val mediaGrabber = MediaGrabber()
+        val permissionsRequester = PermissionsRequester()
 
         fab.setOnClickListener { view ->
-
-            val mediaGrabber = MediaGrabber()
 
 //            mediaGrabber
 //                    .with(this@MainActivity)
 //                    .image()
 //                    .subscribe({ Picasso.with(this).load(File(it)).into(image) }, { it.printStackTrace() })
 
-            mediaGrabber
-                    .with(this@MainActivity)
-                    .file()
+            permissionsRequester.with(this)
+                    .request(arrayOf(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE))
+                    .toList()
+                    .filter {
+                        var res = true
+                        it.forEach {
+                            if (!it) {
+                                res = false
+                            }
+                        }
+                        return@filter res
+                    }
+                    .flatMapSingle { mediaGrabber.with(this@MainActivity).image() }
                     .subscribe({ Log.i("##", it) }, { it.printStackTrace() })
 
         }

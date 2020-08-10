@@ -1,6 +1,5 @@
 package com.gmail.bishoybasily.mediagrabber
 
-import android.widget.ImageView
 import androidx.fragment.app.FragmentActivity
 
 
@@ -55,8 +54,6 @@ class MediaGrabber {
 
         val CODE = 40
         val EXTRA = "media_grabber_extra"
-
-        lateinit var drawImage: (String?, ImageView) -> Unit
 
     }
 

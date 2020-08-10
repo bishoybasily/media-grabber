@@ -4,11 +4,11 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 30
     defaultConfig {
         applicationId "com.gmail.bishoybasily.sample"
         minSdkVersion 21
-        targetSdkVersion 28
+        targetSdkVersion 30
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -23,11 +23,8 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-    configurations.all {
-        resolutionStrategy {
-            force 'androidx.media:media:1.0.0'
-            force 'androidx.legacy:legacy-support-v4:1.0.0'
-        }
+    packagingOptions {
+        exclude 'META-INF/*.kotlin_module'
     }
 }
 
@@ -35,18 +32,20 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-beta3'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-rc1'
 
-    implementation 'androidx.appcompat:appcompat:1.1.0'
-    implementation 'com.google.android.material:material:1.0.0'
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'com.google.android.material:material:1.2.0'
 
     implementation group: "com.squareup.picasso", name: "picasso", version: "$picasso_version"
+
+    implementation 'com.github.bishoybasily:permissions-requester:4.0.6'
 
     implementation project(":lib")
 
     implementation "io.reactivex.rxjava2:rxkotlin:$rx_kotlin_version"
 
-    testImplementation 'junit:junit:4.12'
+    testImplementation 'junit:junit:4.13'
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 }

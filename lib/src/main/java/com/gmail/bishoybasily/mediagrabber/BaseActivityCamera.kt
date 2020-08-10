@@ -31,8 +31,8 @@ abstract class BaseActivityCamera : AppCompatActivity() {
 
     protected val compositeDisposable = CompositeDisposable()
 
-    private val mainHandler = Handler(Looper.getMainLooper())
-    private val backgroundHandler = Handler(Looper.myLooper())
+    private val mainHandler = Handler(Looper.getMainLooper()!!)
+    private val backgroundHandler = Handler(Looper.myLooper()!!)
 
     private val ORIENTATIONS = SparseIntArray()
 
@@ -191,7 +191,7 @@ abstract class BaseActivityCamera : AppCompatActivity() {
 
                 session.capture(captureRequest, object : CameraCaptureSession.CaptureCallback() {
 
-                    override fun onCaptureFailed(session: CameraCaptureSession?, request: CaptureRequest, failure: CaptureFailure) {
+                    override fun onCaptureFailed(session: CameraCaptureSession, request: CaptureRequest, failure: CaptureFailure) {
                         super.onCaptureFailed(session, request, failure)
                         Log.e(TAG, "onCaptureFailed: ${failure.reason}")
                     }
@@ -242,7 +242,7 @@ abstract class BaseActivityCamera : AppCompatActivity() {
 
                 session.setRepeatingRequest(captureRequest, object : CameraCaptureSession.CaptureCallback() {
 
-                    override fun onCaptureFailed(session: CameraCaptureSession?, request: CaptureRequest, failure: CaptureFailure) {
+                    override fun onCaptureFailed(session: CameraCaptureSession, request: CaptureRequest, failure: CaptureFailure) {
                         super.onCaptureFailed(session, request, failure)
                         Log.e(TAG, "onCaptureFailed: ${failure.reason}")
                     }

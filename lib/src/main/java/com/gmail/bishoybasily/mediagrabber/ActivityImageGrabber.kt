@@ -32,10 +32,10 @@ class ActivityImageGrabber : BaseActivityCamera() {
         recyclerGallery.addItemDecoration(spacing)
 
         adapterMedia.onClick { image, view ->
-            compositeDisposable.add(interactorImages.findOne(image.id).map { it.path }.subscribe(::publishResult))
+            publishResult(image.path)
         }
 
-        compositeDisposable.add(interactorImages.findAll().subscribe(adapterMedia::show))
+        compositeDisposable.add(interactorImages.all().toList().subscribe({ adapterMedia.show(it) }, { it.printStackTrace() }))
 
     }
 
@@ -45,7 +45,7 @@ class ActivityImageGrabber : BaseActivityCamera() {
 
     override fun getResourceLayout() = R.layout.activity_image_grabber
 
-    private fun publishResult(it: String?) {
+    private fun publishResult(it: String) {
         setResult(RESULT_OK, intent.putExtra(MediaGrabber.EXTRA, it)); finish()
     }
 

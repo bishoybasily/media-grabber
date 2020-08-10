@@ -21,7 +21,7 @@ class FragmentImageGrabber : Fragment() {
 
         if (resultCode == Activity.RESULT_OK)
             if (requestCode == MediaGrabber.CODE)
-                intent?.let { emitter.onSuccess(it.getStringExtra(MediaGrabber.EXTRA)) }
+                intent?.let { it.getStringExtra(MediaGrabber.EXTRA)?.let { emitter.onSuccess(it) } }
 
     }
 

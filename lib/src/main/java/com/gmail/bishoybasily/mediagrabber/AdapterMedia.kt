@@ -10,7 +10,7 @@ import com.gmail.bishoybasily.recyclerview.RecyclerViewAdapter
  */
 class AdapterMedia : RecyclerViewAdapter<Image, ViewHolderMedia>() {
 
-    override fun onCreateItemViewHolder(parent: ViewGroup): ViewHolderMedia {
+    override fun onCreateItemViewHolder(parent: ViewGroup, viewType: Int): ViewHolderMedia {
         return ViewHolderMedia(
                 this,
                 LayoutInflater.from(parent.context).inflate(

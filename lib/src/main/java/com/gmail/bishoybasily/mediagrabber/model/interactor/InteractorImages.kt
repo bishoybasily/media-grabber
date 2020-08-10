@@ -11,55 +11,31 @@ import io.reactivex.Observable
 
 class InteractorImages(val context: Context) {
 
-    fun findAll(): Observable<ArrayList<Image>> {
-
-        val uri = MediaStore.Images.Thumbnails.EXTERNAL_CONTENT_URI
-        val projection = arrayOf(MediaStore.Images.Thumbnails._ID, MediaStore.Images.Thumbnails.IMAGE_ID, MediaStore.Images.Thumbnails.DATA)
-        val selection = ""
-        val selectionArgs = arrayOf<String>()
-        val sortOrder = MediaStore.Images.Thumbnails._ID + " DESC"
-
-        return Observable.create {
-
-            val result = ArrayList<Image>()
-
-            val cursor = context.contentResolver.query(uri, projection, selection, selectionArgs, sortOrder)
-            while (cursor.moveToNext()) {
-                val id = cursor.getString(cursor.getColumnIndex(projection[1]))
-                val thumbnailPath = cursor.getString(cursor.getColumnIndex(projection[2]))
-                result.add(Image().apply {
-                    this@apply.id = id
-                    this@apply.thumbnailPath = thumbnailPath
-                })
-            }
-            cursor.close()
-
-            it.onNext(result)
-            it.onComplete()
-        }
-    }
-
-    fun findOne(imageId: String?): Observable<Image> {
+    fun all(): Observable<Image> {
 
         val uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-        val projection = arrayOf(MediaStore.Images.Media._ID, MediaStore.Images.Media.DATA)
-        val sortOrder = ""
-        val selection = MediaStore.Images.Media._ID + "=?"
-        val selectionArgs = arrayOf(imageId)
+        val projection = arrayOf(MediaStore.Images.Media._ID, MediaStore.Images.Media.WIDTH, MediaStore.Images.Media.HEIGHT, MediaStore.Images.Media.DATA)
+        val selection = ""
+        val selectionArgs = arrayOf<String>()
+        val sortOrder = MediaStore.Images.Media._ID + " DESC"
 
         return Observable.create {
-            val cursor = context.contentResolver.query(uri, projection, selection, selectionArgs, sortOrder)
-            while (cursor.moveToNext()) {
-                val id = cursor.getString(cursor.getColumnIndex(projection[0]))
-                val path = cursor.getString(cursor.getColumnIndex(projection[1]))
-                it.onNext(Image().apply {
-                    this@apply.id = id
-                    this@apply.path = path
-                })
+
+            val res = arrayListOf<Image>()
+
+            context.contentResolver.query(uri, projection, selection, selectionArgs, sortOrder)?.let { cursor ->
+                while (cursor.moveToNext()) {
+                    val id = cursor.getString(cursor.getColumnIndex(projection[0]))
+                    val width = cursor.getInt(cursor.getColumnIndex(projection[1]))
+                    val height = cursor.getInt(cursor.getColumnIndex(projection[2]))
+                    val path = cursor.getString(cursor.getColumnIndex(projection[3]))
+                    res.add(Image.from(id, width, height, path))
+                }
+                cursor.close()
             }
-            cursor.close()
+
+            res.forEach(it::onNext) // cache
             it.onComplete()
         }
-
     }
 }

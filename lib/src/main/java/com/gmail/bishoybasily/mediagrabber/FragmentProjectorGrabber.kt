@@ -56,7 +56,7 @@ class FragmentProjectorGrabber : Fragment() {
                     mResultCode = resultCode
                     mResultData = data
 
-                    mMediaProjection = mMediaProjectionManager.getMediaProjection(mResultCode, mResultData)
+                    mResultData?.let { mMediaProjection = mMediaProjectionManager.getMediaProjection(mResultCode, it) }
 
                     emitter.onSuccess(mMediaProjection)
 
