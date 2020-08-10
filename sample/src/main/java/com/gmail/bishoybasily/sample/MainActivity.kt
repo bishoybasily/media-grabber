@@ -10,7 +10,6 @@ import com.gmail.bishoybasily.mediagrabber.MediaGrabber
 import com.gmail.bishoybasily.permissionsrequester.PermissionsRequester
 import kotlinx.android.synthetic.main.activity_main.*
 
-
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,7 +29,6 @@ class MainActivity : AppCompatActivity() {
 
             permissionsRequester.with(this)
                     .request(arrayOf(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE))
-                    .toList()
                     .filter {
                         var res = true
                         it.forEach { if (!it) res = false }

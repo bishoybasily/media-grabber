@@ -64,7 +64,6 @@ val mediaGrabber = MediaGrabber()
 permissionsRequester.with(this)
     // returns a stream of booleans for each permission representing if it is granted or not 
     .request(arrayOf(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE))
-    .toList()
     .filter { // verify that all the requested permissions are granted, or continue if you know what you're doing
         var res = true
         it.forEach { if (!it) res = false }
