@@ -40,15 +40,7 @@ mediaGrabber
     // image will start the camera and will read the images form local storage in a whatsapp-like view
     // you can also call file instead of images if you want to select from the local storage only without starting the camera
     .image() 
-    .subscribe(
-            {
-                // it is the path for the captured/selected file
-                Log.i("##", it)
-            },
-            {
-                it.printStackTrace()
-            }
-    )
+    .subscribe({ Log.i("##", it) /* it is the selected/captured image path */ }, { it.printStackTrace() })
 
 ```
 
