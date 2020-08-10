@@ -52,7 +52,7 @@ mediaGrabber
 
 ```
 
-##### Obtain the image path relatively - Full example using [![Permissions-Requester]](https://github.com/bishoybasily/permissions-requester)
+##### Obtain the image path relatively - Full example using [Permissions-Requester](https://github.com/bishoybasily/permissions-requester)
 
 ```kotlin
 
