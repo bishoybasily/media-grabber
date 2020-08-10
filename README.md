@@ -56,7 +56,7 @@ mediaGrabber
 
 ```kotlin
 
-// a new instance of media grabber & permissions requester
+// new instances of media grabber & permissions requester
 
 val permissionsRequester = PermissionsRequester()
 val mediaGrabber = MediaGrabber()
