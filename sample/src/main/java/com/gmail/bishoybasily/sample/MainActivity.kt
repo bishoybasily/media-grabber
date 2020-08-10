@@ -33,11 +33,7 @@ class MainActivity : AppCompatActivity() {
                     .toList()
                     .filter {
                         var res = true
-                        it.forEach {
-                            if (!it) {
-                                res = false
-                            }
-                        }
+                        it.forEach { if (!it) res = false }
                         return@filter res
                     }
                     .flatMapSingle { mediaGrabber.with(this@MainActivity).image() }

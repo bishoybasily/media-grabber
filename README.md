@@ -42,7 +42,7 @@ mediaGrabber
     .image() 
     .subscribe(
             {
-                // it > holds a reference to the selected file 
+                // it is the path for the captured/selected file
                 Log.i("##", it)
             },
             {
@@ -67,11 +67,7 @@ permissionsRequester.with(this)
     .toList()
     .filter { // verify that all the requested permissions are granted, or continue if you know what you're doing
         var res = true
-        it.forEach {
-            if (!it) {
-                res = false
-            }
-        }
+        it.forEach { if (!it) res = false }
         return@filter res
     }
     .flatMapSingle { // start working with the media grabber
