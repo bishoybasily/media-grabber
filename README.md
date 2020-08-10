@@ -28,7 +28,7 @@ dependencies {
 
 ##### Enable Camera & Storage Permissions
 
-##### Obtain the image path relatively
+##### Get the capture/selected file path
 
 ```kotlin
 
@@ -52,7 +52,7 @@ mediaGrabber
 
 ```
 
-##### Obtain the image path relatively - Full example using [Permissions-Requester](https://github.com/bishoybasily/permissions-requester)
+##### Get the capture/selected file path - Full example using [Permissions-Requester](https://github.com/bishoybasily/permissions-requester)
 
 ```kotlin
 
